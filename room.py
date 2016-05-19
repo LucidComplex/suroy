@@ -25,7 +25,6 @@ class Room(object):
             use = False
             for line in room_data:
                 l = str.lower(line.rstrip())
-                print(l)
                 if l in self.__dict__:
                     attr = l
                     use = True
