@@ -11,7 +11,10 @@ class Room(object):
         try:
             self.file_path = args[0].path
         except AttributeError:
-            self.file_path = args[0].name
+            try:
+                self.file_path = args[0].name
+            except AttributeError:
+                self.file_path = args[0]
         with open(self.file_path) as room_data:
             temp = []
             use = False

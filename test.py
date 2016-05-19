@@ -1,6 +1,7 @@
-import unittest
 import os
 import room
+import suroy
+import unittest
 
 class RoomTestCase(unittest.TestCase):
     def setUp(self):
@@ -42,3 +43,12 @@ class RoomTestCase(unittest.TestCase):
         exits = {'n': 'test_room2', 'w': 'test_room3'}
         self.assertEqual(self.r.exits, exits)
 
+
+class SuroyTestCase(unittest.TestCase):
+    def test_load_rooms(self):
+        loaded_rooms = {
+            'test_room': room.Room('rooms/test_room.rdf'),
+            'test_room2': room.Room('rooms/test_room2.rdf')
+        }
+        test_loaded = suroy.load_rooms('rooms')
+        self.assertEqual(test_loaded.keys(), loaded_rooms.keys())
