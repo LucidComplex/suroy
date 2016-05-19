@@ -7,9 +7,10 @@ class RoomTestCase(unittest.TestCase):
         sample_path = os.scandir('rooms')
         for sample in sample_path:
             if sample.is_file() and sample.name.startswith('test_'):
-                self.r = room.Room(sample)
-                self.sample = sample
-                break
+                if sample.name == 'test_room.rdf':
+                    self.r = room.Room(sample)
+                    self.sample = sample
+                    break
 
     def test_room_takes_path(self):
         with open('rooms/test_room.rdf') as test:
@@ -36,3 +37,8 @@ class RoomTestCase(unittest.TestCase):
     def test_room_loads_items(self):
         items = {'silver spoon': 1, 'peanuts': 2}
         self.assertEqual(self.r.items, items)
+
+    def test_room_loads_exits(self):
+        exits = {'n': 'test_room2', 'w': 'test_room3'}
+        self.assertEqual(self.r.exits, exits)
+
