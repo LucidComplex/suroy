@@ -5,7 +5,7 @@ import unittest
 
 class RoomTestCase(unittest.TestCase):
     def setUp(self):
-        sample_path = os.scandir('rooms')
+        sample_path = os.scandir('test_rooms')
         for sample in sample_path:
             if sample.is_file() and sample.name.startswith('test_'):
                 if sample.name == 'test_room.rdf':
@@ -14,9 +14,9 @@ class RoomTestCase(unittest.TestCase):
                     break
 
     def test_room_takes_path(self):
-        with open('rooms/test_room.rdf') as test:
+        with open('test_rooms/test_room.rdf') as test:
             r = room.Room(test)
-        self.assertEqual(r.file_path, 'rooms/test_room.rdf')
+        self.assertEqual(r.file_path, 'test_rooms/test_room.rdf')
 
     def test_room_loads_intro(self):
         intro = ('You wake up on an old wooden floor. '
@@ -47,8 +47,8 @@ class RoomTestCase(unittest.TestCase):
 class SuroyTestCase(unittest.TestCase):
     def test_load_rooms(self):
         loaded_rooms = {
-            'test_room': room.Room('rooms/test_room.rdf'),
-            'test_room2': room.Room('rooms/test_room2.rdf')
+            'test_room': room.Room('test_rooms/test_room.rdf'),
+            'test_room2': room.Room('test_rooms/test_room2.rdf')
         }
-        test_loaded = suroy.load_rooms('rooms')
+        test_loaded = suroy.load_rooms('test_rooms')
         self.assertEqual(test_loaded.keys(), loaded_rooms.keys())
