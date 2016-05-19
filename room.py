@@ -1,21 +1,16 @@
 import os
 
-def load_rooms(directory):
-    try:
-        room_paths = os.scandir(directory)
-    except FileNotFoundError:
-        return
-    for room in room_paths:
-        if room.is_file() and room.name.endswith('.rdf'):
-            x = Room(room)
-            print(x)
-
 class Room(object):
     def __init__(self, *args, **kwargs):
         self.file_path = None
         self.intro = None
         self.title = None
         self.desc = None
+        self.items = None
+        self.n = None
+        self.s = None
+        self.w = None
+        self.e = None
         try:
             self.file_path = args[0].path
         except AttributeError:
@@ -23,18 +18,28 @@ class Room(object):
         with open(self.file_path) as room_data:
             temp = []
             use = False
+            is_item = False
             for line in room_data:
                 l = str.lower(line.rstrip())
                 if l in self.__dict__:
+                    temp = []
                     attr = l
                     use = True
+                    if l == 'items':
+                        is_item = True
+                        temp = {}
                     continue
-                if l == 'end':
+                if l == 'end' and use:
                     use = False
-                    temp = ''.join(temp)
+                    if is_item:
+                        is_item = False
+                    else:
+                        temp = ''.join(temp)
                     setattr(self, attr, temp)
-                    temp = []
                     continue
                 if use:
-                    temp.append(line)
-
+                    if is_item:
+                        count, name = l.split(' ', 1)
+                        temp[name] = int(count)
+                    else:
+                        temp.append(line)
