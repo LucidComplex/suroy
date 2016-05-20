@@ -31,7 +31,7 @@ class Suroy(object):
         self.parse_command(command)
 
     def parse_command(self, command):
-        pass
+        self.current_room = self.rooms[self.current_room.exits[command]]
 
     def print_room(self, first=False):
         print(self.current_room.title)

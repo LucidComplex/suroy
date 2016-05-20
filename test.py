@@ -7,16 +7,16 @@ class RoomTestCase(unittest.TestCase):
     def setUp(self):
         sample_path = os.scandir('test_rooms')
         for sample in sample_path:
-            if sample.is_file() and sample.name.startswith('test_'):
-                if sample.name == 'test_room.rdf':
+            if sample.is_file():
+                if sample.name == 'begin.rdf':
                     self.r = room.Room(sample)
                     self.sample = sample
                     break
 
     def test_room_takes_path(self):
-        with open('test_rooms/test_room.rdf') as test:
+        with open('test_rooms/begin.rdf') as test:
             r = room.Room(test)
-        self.assertEqual(r.file_path, 'test_rooms/test_room.rdf')
+        self.assertEqual(r.file_path, 'test_rooms/begin.rdf')
 
     def test_room_loads_intro(self):
         intro = ('You wake up on an old wooden floor. '
@@ -40,15 +40,26 @@ class RoomTestCase(unittest.TestCase):
         self.assertEqual(self.r.items, items)
 
     def test_room_loads_exits(self):
-        exits = {'n': 'test_room2', 'w': 'test_room3'}
+        exits = {'n': 'test_room2', 's': 'test_room3'}
         self.assertEqual(self.r.exits, exits)
 
 
 class SuroyTestCase(unittest.TestCase):
     def test_load_rooms(self):
         loaded_rooms = {
-            'test_room': room.Room('test_rooms/test_room.rdf'),
-            'test_room2': room.Room('test_rooms/test_room2.rdf')
+            'begin': room.Room('test_rooms/begin.rdf'),
+            'test_room2': room.Room('test_rooms/test_room2.rdf'),
+            'test_room3': room.Room('test_rooms/test_room3.rdf'),
         }
-        test_loaded = suroy.load_rooms('test_rooms')
-        self.assertEqual(test_loaded.keys(), loaded_rooms.keys())
+        test_loaded = suroy.Suroy('test_rooms')
+        self.assertEqual(test_loaded.rooms.keys(), loaded_rooms.keys())
+
+    def test_move_room_north(self):
+        test = suroy.Suroy('test_rooms')
+        test.parse_command('n')
+        self.assertEqual(test.current_room, test.rooms['test_room2'])
+
+    def test_move_room_south(self):
+        test = suroy.Suroy('test_rooms')
+        test.parse_command('s')
+        self.assertEqual(test.current_room, test.rooms['test_room3'])
