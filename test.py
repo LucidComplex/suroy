@@ -45,6 +45,9 @@ class RoomTestCase(unittest.TestCase):
 
 
 class SuroyTestCase(unittest.TestCase):
+    def setUp(self):
+        self.test = suroy.Suroy('test_rooms')
+
     def test_load_rooms(self):
         loaded_rooms = {
             'begin': room.Room('test_rooms/begin.rdf'),
@@ -55,11 +58,15 @@ class SuroyTestCase(unittest.TestCase):
         self.assertEqual(test_loaded.rooms.keys(), loaded_rooms.keys())
 
     def test_move_room_north(self):
-        test = suroy.Suroy('test_rooms')
-        test.parse_command('n')
-        self.assertEqual(test.current_room, test.rooms['test_room2'])
+        self.test.parse_command('n')
+        self.assertEqual(self.test.current_room, self.test.rooms['test_room2'])
 
     def test_move_room_south(self):
-        test = suroy.Suroy('test_rooms')
-        test.parse_command('s')
-        self.assertEqual(test.current_room, test.rooms['test_room3'])
+        self.test.parse_command('s')
+        self.assertEqual(self.test.current_room, self.test.rooms['test_room3'])
+
+    def test_look_room(self):
+        try:
+            self.test.parse_command('look')
+        except Exception:
+            self.fail()
