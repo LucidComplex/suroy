@@ -3,44 +3,57 @@ import room
 import os
 
 
-def load_rooms(directory):
-    rooms = os.scandir(directory)
-    room_dict = {}
-    for room_data in rooms:
-        if room_data.is_file() and room_data.name.endswith('.rdf'):
-            room_dict[room_data.name[:-4]] = room.Room(room_data)
+class Suroy(object):
+    def __init__(self, *args):
+        try:
+            directory = args[0]
+        except Exception:
+            directory = 'rooms'
+        self.load_rooms(directory)
+        self.current_room = self.rooms['begin']
 
-    return room_dict
+    def load_rooms(self, directory):
+        rooms = os.scandir(directory)
+        room_dict = {}
+        for room_data in rooms:
+            if room_data.is_file() and room_data.name.endswith('.rdf'):
+                room_dict[room_data.name[:-4]] = room.Room(room_data)
+        self.rooms = room_dict
+
+    def start(self):
+        while True:
+            self.print_room(True)
+            self.prompt()
+
+    def prompt(self):
+        print('>>>', end=' ')
+        command = input()
+        self.parse_command(command)
+
+    def parse_command(self, command):
+        pass
+
+    def print_room(self, first=False):
+        print(self.current_room.title)
+        if first:
+            print(self.current_room.intro)
+        print(self.current_room.desc)
+        if self.current_room.items:
+            print('Items:')
+            for name, count in self.current_room.items.items():
+                print(count, ' - ', name)
+            print()
+        print('Exits:')
+        for direction, name in self.current_room.exits.items():
+            print(str.upper(direction), ' - ', name)
 
 def main():
     print('Loading game data.')
-    rooms = load_rooms('rooms')
-    room = rooms['begin']
-    start_game(rooms)
+    suroy = Suroy()
+    suroy.start()
 
-def start_game(rooms):
-    current_room = rooms['begin']
-    while True:
-        print_room(current_room, True)
-        prompt()
 
-def prompt():
-    print('>>>', end=' ')
-    command = input()
 
-def print_room(room, first=False):
-    print(room.title)
-    if first:
-        print(room.intro)
-    print(room.desc)
-    if room.items:
-        print('Items:')
-        for name, count in room.items.items():
-            print(count, ' - ', name)
-        print()
-    print('Exits:')
-    for direction, name in room.exits.items():
-        print(str.upper(direction), ' - ', name)
 
 if __name__ == '__main__':
     main()
