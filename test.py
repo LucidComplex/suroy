@@ -1,5 +1,6 @@
 import os
 import room
+import grammar
 import suroy
 import unittest
 
@@ -70,3 +71,13 @@ class SuroyTestCase(unittest.TestCase):
             self.test.parse_command('look')
         except Exception:
             self.fail()
+
+    def test_check_correct_grammar(self):
+        test = 'get that door'
+        g = grammar.Grammar()
+        self.assertTrue(g.check_grammar(test))
+
+    def test_check_incorrect_grammar(self):
+        test = 'door get'
+        g = grammar.Grammar()
+        self.assertFalse(g.check_grammar(test))

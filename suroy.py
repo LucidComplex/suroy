@@ -1,6 +1,8 @@
 #!/bin/env python
 import room
+import grammar
 import os
+import sys
 
 
 class Suroy(object):
@@ -11,6 +13,7 @@ class Suroy(object):
             directory = 'rooms'
         self.load_rooms(directory)
         self.current_room = self.rooms['begin']
+        self.grammar = grammar.Grammar()
 
     def load_rooms(self, directory):
         rooms = os.scandir(directory)
@@ -35,8 +38,14 @@ class Suroy(object):
         self.print_room(True)
 
     def parse_command(self, command):
-        direction = command
-        self.move_room(direction)
+        try:
+            if command == 'look':
+                self.print_room()
+                return
+            direction = command
+            self.move_room(direction)
+        except Exception:
+            print('Huh? I don\'t understand what you mean.')
 
     def print_room(self, first=False):
         print(self.current_room.title)
@@ -50,15 +59,17 @@ class Suroy(object):
             print()
         print('Exits:')
         for direction, name in self.current_room.exits.items():
-            print(str.upper(direction), ' - ', name)
+            print(str.upper(direction), ' - ', self.rooms[name].title.rstrip())
 
-def main():
+def main(directory):
     print('Loading game data.')
-    suroy = Suroy()
+    suroy = Suroy(directory)
     suroy.start()
 
 
-
-
 if __name__ == '__main__':
-    main()
+    try:
+        directory = sys.argv[1]
+    except Exception:
+        main('')
+    main(directory)
