@@ -21,8 +21,8 @@ class Suroy(object):
         self.rooms = room_dict
 
     def start(self):
+        self.print_room(True)
         while True:
-            self.print_room(True)
             self.prompt()
 
     def prompt(self):
@@ -30,8 +30,13 @@ class Suroy(object):
         command = input()
         self.parse_command(command)
 
+    def move_room(self, direction):
+        self.current_room = self.rooms[self.current_room.exits[direction]]
+        self.print_room(True)
+
     def parse_command(self, command):
-        pass
+        direction = command
+        self.move_room(direction)
 
     def print_room(self, first=False):
         print(self.current_room.title)

@@ -1,0 +1,19 @@
+Title
+Room 3
+End
+
+Intro
+This looks like the same room as before, but... even darker.
+End
+
+Desc
+You are in a *darker* room.
+End
+
+Items
+1 gold spoon
+End
+
+Exits
+S test_room
+End
