@@ -34,6 +34,9 @@ class Suroy(object):
         command = input()
         self.parse_command(command)
 
+    def go(self, *args):
+        getattr(self, self.grammar.simplify(args[0]))()
+
     def move_room(self, direction):
         try:
             self.current_room = self.rooms[self.current_room.exits[direction]]
@@ -70,10 +73,10 @@ class Suroy(object):
         print('Taken.')
 
     def parse_command(self, command):
-        if self.grammar.check_grammar(command):
+        try:
             com_split = command.split(' ')
             getattr(self, self.grammar.simplify(com_split[0]))(com_split[-1])
-        else:
+        except Exception:
             print('Huh? I don\'t understand what you mean.')
 
     def print_room(self, first=False):
@@ -89,6 +92,7 @@ class Suroy(object):
         print('Exits:')
         for direction, name in self.current_room.exits.items():
             print(str.upper(direction), ' - ', self.rooms[name].title.rstrip())
+
 
 def main(directory):
     print('Loading game data.')
