@@ -37,14 +37,20 @@ class Suroy(object):
         self.current_room = self.rooms[self.current_room.exits[direction]]
         self.print_room(True)
 
+    def look(self):
+        self.print_room()
+
+    def south(self):
+        self.move_room('s')
+
+    def north(self):
+        self.move_room('n')
+
     def parse_command(self, command):
-        try:
-            if command == 'look':
-                self.print_room()
-                return
-            direction = command
-            self.move_room(direction)
-        except Exception:
+        if self.grammar.check_grammar(command):
+            com_split = command.split(' ')
+            getattr(self, self.grammar.simplify(com_split[0]))()
+        else:
             print('Huh? I don\'t understand what you mean.')
 
     def print_room(self, first=False):

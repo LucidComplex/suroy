@@ -1,7 +1,7 @@
 class Grammar(object):
     def __init__(self):
         with open('verbs.grammar') as verbs:
-            v = [verb.rstrip() for verb in verbs]
+            v = [verb.rstrip().split(',') for verb in verbs]
         with open('nouns.grammar') as nouns:
             n = [noun.rstrip() for noun in nouns]
         with open('determiner.grammar') as determiners:
@@ -13,8 +13,9 @@ class Grammar(object):
         self.valid = ('verb', 'verb noun', 'verb determiner noun')
 
     def check_type(self, word):
-        if word in self.verbs:
-            return 'verb'
+        for verb in self.verbs:
+            if word in verb:
+                return 'verb'
         if word in self.nouns:
             return 'noun'
         if word in self.determiners:
@@ -26,3 +27,9 @@ class Grammar(object):
         if ' '.join(types) in self.valid:
             return True
         return False
+
+    def simplify(self, word):
+        for words in self.verbs:
+            if word in words:
+                return words[0]
+

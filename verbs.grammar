@@ -1,15 +1,8 @@
-look
-w
-e
-s
-n
-west
-north
-east
-south
+look,l
+west,w
+north,n
+east,e
+south,s
+get,grab,acquire,pick up
 go
 talk
-get
-grab
-acquire
-pick up
