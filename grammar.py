@@ -22,11 +22,14 @@ class Grammar(object):
             return 'determiner'
 
     def check_grammar(self, command):
-        com_split = command.split(' ')
-        types = [self.check_type(word) for word in com_split]
-        if ' '.join(types) in self.valid:
-            return True
-        return False
+        try:
+            com_split = command.split(' ')
+            types = [self.check_type(word) for word in com_split]
+            if ' '.join(types) in self.valid:
+                return True
+            return False
+        except Exception:
+            return False
 
     def simplify(self, word):
         for words in self.verbs:

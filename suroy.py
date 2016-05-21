@@ -14,6 +14,7 @@ class Suroy(object):
         self.load_rooms(directory)
         self.current_room = self.rooms['begin']
         self.grammar = grammar.Grammar()
+        self.inventory = {}
 
     def load_rooms(self, directory):
         rooms = os.scandir(directory)
@@ -34,22 +35,44 @@ class Suroy(object):
         self.parse_command(command)
 
     def move_room(self, direction):
-        self.current_room = self.rooms[self.current_room.exits[direction]]
+        try:
+            self.current_room = self.rooms[self.current_room.exits[direction]]
+        except Exception:
+            print('I can\'t get there.')
+            return
         self.print_room(True)
 
-    def look(self):
+    def look(self, *args):
         self.print_room()
 
-    def south(self):
+    def south(self, *args):
         self.move_room('s')
 
-    def north(self):
+    def north(self, *args):
         self.move_room('n')
+
+    def east(self, *args):
+        self.move_room('e')
+
+    def west(self, *args):
+        self.move_room('w')
+
+    def get(self, *args):
+        try:
+            quantity = self.current_room.items.pop(args[0])
+        except KeyError:
+            print('I can\'t find that item.')
+            return
+        try:
+            self.inventory[args[0]] += quantity
+        except KeyError:
+            self.inventory[args[0]] = quantity
+        print('Taken.')
 
     def parse_command(self, command):
         if self.grammar.check_grammar(command):
             com_split = command.split(' ')
-            getattr(self, self.grammar.simplify(com_split[0]))()
+            getattr(self, self.grammar.simplify(com_split[0]))(com_split[-1])
         else:
             print('Huh? I don\'t understand what you mean.')
 
