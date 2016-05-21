@@ -1,0 +1,31 @@
+Title
+Kitchen Area
+End
+
+Intro
+This kitchen seems to be really slippery, maybe because of the bacon. Your mom is washing the dishes and says "hi!".
+End
+
+Desc
+A clove of garlic is left lying on the floor. The kitchen knives are placed together with the spoon and forks beside the stack of plates. It seems like you have absolutly nothing to do here.
+End
+
+Items
+Knife
+Clove of Garlic
+End
+
+Event
+Talk Mom
+-if garlic
+ get Cash
+-if no garlic
+ nothing
+End
+
+Exit
+N - Nothing
+S - Nothing
+E - Nothing
+W - Dining Room
+End
