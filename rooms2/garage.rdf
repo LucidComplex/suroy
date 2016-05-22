@@ -1,0 +1,19 @@
+Title
+Garage
+End
+
+Intro
+You go outside as the smell of city air floods your nose. 
+End
+
+Desc
+Everything seems normal until your neighbor's dog Hodor growls loudly as it slowly approaches you.
+End
+
+Items
+End
+
+Exit
+S livingroom
+W street1
+End

@@ -4,5 +4,10 @@ north,n
 east,e
 south,s
 get,grab,acquire,pick up
-go
 talk
+kill,attack
+use
+eat
+wear
+help
+inventory,inv

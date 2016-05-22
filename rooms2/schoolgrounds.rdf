@@ -1,0 +1,22 @@
+Title
+School Grounds
+End
+
+Intro
+Everyone is walking dryly around the campus looking like zombies. The side-effect of quality education seems to be getting to them.
+End
+
+Desc
+You try not to notice everyone staring into nothingness as they try to study as you stumble upon a really thick book. No one seems to own the book. On the other hand, you heard a subtle amount of pandemonium from the university's sports complex.
+End
+
+Items
+Book
+End
+
+Exit
+N building2
+S sportscomplex
+E building1
+W schoolgate
+End

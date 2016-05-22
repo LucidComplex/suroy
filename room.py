@@ -26,7 +26,7 @@ class Room(object):
 
 
 def load_rooms():
-    root_dir = 'rooms'
+    root_dir = 'rooms2'
     root = Room(os.path.join(root_dir, 'room.rdf'))
     loaded = {'room': root}
     frontier = [root]

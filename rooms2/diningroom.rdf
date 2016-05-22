@@ -1,0 +1,22 @@
+Title
+Dining Room
+End
+
+Intro
+The sunlight makes everything in the place brighter. The smell of bacon grows even stronger as it is. You feel your stomach growling even stronger than before.
+End
+
+Desc
+The Living room just to your west looks just as messy as your room. You wonder when this place will ever be clean. East of the dining room is the Kitchen Area probably still manifested by cockroaches. On the table is a plate of bacon and rice prepared just for you and a pack lunch that smells like chicken and rice. A refrigerator is seen just across the room.
+End
+
+Items
+Plate/Food/Bacon
+Pack Lunch
+End
+
+Exit
+E kitchenarea
+W livingroom
+U outsideroom
+End

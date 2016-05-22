@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import room
+import grammar
+
 
 class Suroy(object):
     def __init__(self):
@@ -7,6 +9,7 @@ class Suroy(object):
             'inventory': []
         }
         self.current_room = room.load_rooms()
+        self.grammar = grammar.load_grammar()
         self.play = True
 
     def start(self):
@@ -18,6 +21,9 @@ class Suroy(object):
     def prompt(self):
         print('>>>', end=' ')
         self.command = input()
+
+    def handle_command(self):
+        print(self.grammar.recognize_verb(self.command))
 
     def print_room(self):
         room = self.current_room
