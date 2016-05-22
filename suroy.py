@@ -12,11 +12,12 @@ class Suroy(object):
     def start(self):
         while self.play:
             self.print_room()
-            self.handle_input()
+            self.prompt()
+            self.handle_command()
 
-    def handle_input(self):
+    def prompt(self):
         print('>>>', end=' ')
-        command = input()
+        self.command = input()
 
     def print_room(self):
         room = self.current_room
