@@ -1,53 +1,43 @@
 import os
 
 class Room(object):
-    def __init__(self, *args, **kwargs):
-        self.file_path = None
-        self.intro = None
-        self.title = None
-        self.desc = None
-        self.items = None
-        self.exits = None
-        try:
-            self.file_path = args[0].path
-        except AttributeError:
-            try:
-                self.file_path = args[0].name
-            except AttributeError:
-                self.file_path = args[0]
-        with open(self.file_path) as room_data:
-            temp = []
-            use = False
-            is_item = False
-            is_exit = False
+    def __init__(self, path):
+        self.items = []
+        self.exits = {}
+        with open(path) as room_data:
             for line in room_data:
                 l = str.lower(line.rstrip())
-                if l in self.__dict__:
-                    temp = []
-                    attr = l
-                    use = True
-                    if l == 'items':
-                        is_item = True
-                        temp = {}
-                    if l == 'exits':
-                        is_exit = True
-                        temp = {}
-                    continue
-                if l == 'end' and use:
-                    use = False
-                    if is_item or is_exit:
-                        is_item = False
-                        is_exit = False
-                    else:
-                        temp = ''.join(temp)
-                    setattr(self, attr, temp)
-                    continue
-                if use:
-                    if is_item:
-                        count, name = l.split(' ', 1)
-                        temp[name] = int(count)
-                    elif is_exit:
-                        direction, name = l.split(' ', 1)
-                        temp[direction] = name
-                    else:
-                        temp.append(line)
+                if l == 'title':
+                    self.title = next(room_data).rstrip()
+                elif l == 'intro':
+                    self.intro = next(room_data).rstrip()
+                elif l == 'desc':
+                    self.description = next(room_data).rstrip()
+                elif l == 'items':
+                    item = str.lower(next(room_data).rstrip())
+                    while item != 'end':
+                        self.items.append(item)
+                        item = str.lower(next(room_data).rstrip())
+                elif l == 'exit':
+                    exit = str.lower(next(room_data).rstrip())
+                    while exit != 'end':
+                        self.exits[exit[0]] = exit[2:]
+                        exit = str.lower(next(room_data).rstrip())
+
+
+def load_rooms():
+    root_dir = 'rooms'
+    root = Room(os.path.join(root_dir, 'room.rdf'))
+    loaded = {'room': root}
+    frontier = [root]
+    while len(frontier) > 0:
+        temp = frontier.pop()
+        for direction, exit in temp.exits.items():
+            if exit in loaded.keys():
+                temp.exits[direction] = loaded[exit]
+            else:
+                temp_room = Room(os.path.join(root_dir, exit + '.rdf'))
+                temp.exits[direction] = temp_room
+                loaded[exit] = temp_room
+                frontier.append(temp_room)
+    return root

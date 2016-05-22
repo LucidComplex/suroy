@@ -1,108 +1,58 @@
-#!/bin/env python
+#!/usr/bin/env python3
 import room
-import grammar
-import os
-import sys
-
 
 class Suroy(object):
-    def __init__(self, *args):
-        try:
-            directory = args[0]
-        except Exception:
-            directory = 'rooms'
-        self.load_rooms(directory)
-        self.current_room = self.rooms['begin']
-        self.grammar = grammar.Grammar()
-        self.inventory = {}
-
-    def load_rooms(self, directory):
-        rooms = os.scandir(directory)
-        room_dict = {}
-        for room_data in rooms:
-            if room_data.is_file() and room_data.name.endswith('.rdf'):
-                room_dict[room_data.name[:-4]] = room.Room(room_data)
-        self.rooms = room_dict
+    def __init__(self):
+        self.player = {
+            'inventory': []
+        }
+        self.current_room = room.load_rooms()
+        self.play = True
 
     def start(self):
-        self.print_room(True)
-        while True:
-            self.prompt()
+        while self.play:
+            self.print_room()
+            self.handle_input()
 
-    def prompt(self):
+    def handle_input(self):
         print('>>>', end=' ')
         command = input()
-        self.parse_command(command)
 
-    def go(self, *args):
-        getattr(self, self.grammar.simplify(args[0]))()
-
-    def move_room(self, direction):
-        try:
-            self.current_room = self.rooms[self.current_room.exits[direction]]
-        except Exception:
-            print('I can\'t get there.')
-            return
-        self.print_room(True)
-
-    def look(self, *args):
-        self.print_room()
-
-    def south(self, *args):
-        self.move_room('s')
-
-    def north(self, *args):
-        self.move_room('n')
-
-    def east(self, *args):
-        self.move_room('e')
-
-    def west(self, *args):
-        self.move_room('w')
-
-    def get(self, *args):
-        try:
-            quantity = self.current_room.items.pop(args[0])
-        except KeyError:
-            print('I can\'t find that item.')
-            return
-        try:
-            self.inventory[args[0]] += quantity
-        except KeyError:
-            self.inventory[args[0]] = quantity
-        print('Taken.')
-
-    def parse_command(self, command):
-        try:
-            com_split = command.split(' ')
-            getattr(self, self.grammar.simplify(com_split[0]))(com_split[-1])
-        except Exception:
-            print('Huh? I don\'t understand what you mean.')
-
-    def print_room(self, first=False):
-        print(self.current_room.title)
-        if first:
-            print(self.current_room.intro)
-        print(self.current_room.desc)
-        if self.current_room.items:
-            print('Items:')
-            for name, count in self.current_room.items.items():
-                print(count, ' - ', name)
+    def print_room(self):
+        room = self.current_room
+        print(room.title, '\n')
+        print(room.intro, '\n')
+        print(room.description, '\n')
+        if room.items:
+            print(' Items:')
+            for item in room.items:
+                print('  ', item)
             print()
-        print('Exits:')
-        for direction, name in self.current_room.exits.items():
-            print(str.upper(direction), ' - ', self.rooms[name].title.rstrip())
+        self.print_exits()
+
+    def print_exits(self):
+        print(' Exits:')
+        for d, exit in self.current_room.exits.items():
+            if d == 'n':
+                direction = 'North'
+            elif d == 's':
+                direction = 'South'
+            elif d == 'e':
+                direction = 'East'
+            elif d == 'w':
+                direction = 'West'
+            elif d == 'd':
+                direction = 'Down'
+            elif d == 'u':
+                direction = 'Up'
+            print('  ', direction, '-', exit.title, '\n')
 
 
-def main(directory):
-    print('Loading game data.')
-    suroy = Suroy(directory)
+def main():
+    print('Loading game data...')
+    print('Loaded!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    suroy = Suroy()
     suroy.start()
 
-
 if __name__ == '__main__':
-    try:
-        directory = sys.argv[1]
-    except Exception:
-        main('')
-    main(directory)
+    main()
