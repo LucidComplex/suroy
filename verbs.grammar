@@ -7,10 +7,6 @@ down,d
 up,u
 get,grab,acquire,pick up
 examine,ex
-talk
-kill,attack
 use
-eat
-wear
-help
+drop
 inventory,inv

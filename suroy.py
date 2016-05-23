@@ -22,15 +22,47 @@ class Suroy(object):
             'get': self.get,
             'inventory': self.inventory,
             'use': self.use,
-            'examine': self.examine
+            'examine': self.examine,
+            'drop': self.drop
         }
         self.used = []
+
+    def drop(self, *args):
+        word = ' '.join(args)
+        if len(word) == 0:
+            print(' Drop what?')
+            return
+        try:
+            for i, item in enumerate(self.player['inventory']):
+                if str.lower(item.title) == word:
+                    self.current_room.items.append(item)
+                    del self.player['inventory'][i]
+                    print(' Dropped.')
+                    return
+        except Exception:
+            print('You don\'t have that item.')
+
 
     def use(self, *args):
         word = ' '.join(args)
         if len(word) == 0:
             print(' Use what?')
             return
+        if self.current_room.title == 'Exam Room' and word == 'test paper':
+            self.play = False
+            check = 0
+            required = ('pen', 'calculator')
+            for item in self.player['inventory']:
+                if str.lower(item.title) in required:
+                    check = check + 1
+            if check == 2:
+                for item in self.used:
+                    if str.lower(item.title) == 'packed lunch':
+                        print('YOU PASSED THE EXAM!')
+                        return
+                print(' You take the exam, but your calculator started to look like a chocolate bar. You could\'t concentrate.\nYOU FAILED.')
+            else:
+                print('Your approached to take the exam, but your teacher merely stared at you... as if you were lacking something for the exam.\nYOU FAILED.')
         for item in self.player['inventory']:
             if str.lower(item.title) == str.lower(word):
                 try:
@@ -75,6 +107,9 @@ class Suroy(object):
             print(' ', item.title)
 
     def get(self, item_name):
+        if len(self.player['inventory']) == 5:
+            print(' You can\'t carry anymore.')
+            return
         if len(str.strip(item_name)) == 0:
             print('You want to get what item?')
             return
