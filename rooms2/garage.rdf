@@ -28,4 +28,7 @@ end
 
 solution
 chew toy:You throw the chew toy at the dog, and the dog drags the chew toy off to the side.:yes
+laptop:You smack the dog with your laptop, causing it to be angered further.:
+towel:You try to chase the dog away with your towel, but the dog grows more aggresive towards you.:
+knife:You slash at the dog with your knife. However you miss, and you're scared to try again.:
 end

@@ -27,5 +27,6 @@ End
 
 solution
 knife:You lunge towards the holdaper with your knife, dodging his swipes. You stabbed his eye, cut his throat, and when you heard him breathe, you finished him by piercing heart. Thank God for last night's episode of Game of Thrones.:yes
-pen:You use your pen at the attacker. Hoping you can draw eagles to escape.:
+pen:You use your pen at the attacker. But it fails miserably.:
+id:You use your ID, hoping your face scares him off. But it fails.:
 end

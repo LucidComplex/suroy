@@ -5,8 +5,10 @@ east,e
 south,s
 down,d
 up,u
-get,grab,acquire,pick up
+get,grab,acquire,pick up,take
 examine,ex
 use
 drop
 inventory,inv
+ggwp,gg
+exit,quit

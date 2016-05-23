@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import sys
 import room
 import grammar
 
@@ -23,24 +24,31 @@ class Suroy(object):
             'inventory': self.inventory,
             'use': self.use,
             'examine': self.examine,
-            'drop': self.drop
+            'drop': self.drop,
+            'ggwp': self.ggwp,
+            'exit': self.exit
         }
         self.used = []
+
+    def exit(self, *args):
+        sys.exit(0)
+
+    def ggwp(self, *args):
+        print(' GGWP! Restarting game.')
+        self.play = False
 
     def drop(self, *args):
         word = ' '.join(args)
         if len(word) == 0:
             print(' Drop what?')
             return
-        try:
-            for i, item in enumerate(self.player['inventory']):
-                if str.lower(item.title) == word:
-                    self.current_room.items.append(item)
-                    del self.player['inventory'][i]
-                    print(' Dropped.')
-                    return
-        except Exception:
-            print('You don\'t have that item.')
+        for i, item in enumerate(self.player['inventory']):
+            if str.lower(item.title) == word:
+                self.current_room.items.append(item)
+                del self.player['inventory'][i]
+                print(' Dropped.')
+                return
+        print('You don\'t have that item.')
 
 
     def use(self, *args):
@@ -59,11 +67,11 @@ class Suroy(object):
                 for item in self.used:
                     if str.lower(item.title) == 'packed lunch':
                         print('YOU PASSED THE EXAM!')
-                        return
+                        self.exit()
                 print(' You take the exam, but your calculator started to look like a chocolate bar. You could\'t concentrate.\nYOU FAILED.')
             else:
                 print('Your approached to take the exam, but your teacher merely stared at you... as if you were lacking something for the exam.\nYOU FAILED.')
-            return
+            self.exit()
         for item in self.player['inventory']:
             if str.lower(item.title) == str.lower(word):
                 try:
@@ -132,8 +140,7 @@ class Suroy(object):
         try:
             if self.current_room.conflict:
                 print(' YOU LOSE.')
-                self.play = False
-                return
+                self.exit()
             self.current_room = self.current_room.exits[direction]
             self.print_room(intro=True)
         except KeyError:
@@ -211,8 +218,9 @@ class Suroy(object):
 def main():
     print('Loading game data...')
     print('Loaded!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    suroy = Suroy()
-    suroy.start()
+    while True:
+        suroy = Suroy()
+        suroy.start()
 
 if __name__ == '__main__':
     main()
