@@ -3,6 +3,8 @@ west,w
 north,n
 east,e
 south,s
+down,d
+up,u
 get,grab,acquire,pick up
 talk
 kill,attack
