@@ -18,53 +18,75 @@ class Suroy(object):
             'east': self.east,
             'west': self.west,
             'down': self.down,
-            'up': self.up
+            'up': self.up,
+            'get': self.get,
+            'inventory': self.inventory
         }
 
-    def look(self):
+    def inventory(self, *args):
+        print(' You are carrying:')
+        if len(self.player['inventory']) == 0:
+            print('  Nothing')
+            return
+        for item in self.player['inventory']:
+            print(' ', item)
+
+    def get(self, item_name):
+        if len(str.strip(item_name)) == 0:
+            print('You want to get what item?')
+            return
+        try:
+            grabbed_index = self.current_room.items.index(item_name)
+            grabbed_item = self.current_room.items.pop(grabbed_index)
+            self.player['inventory'].append(grabbed_item)
+            print(' Taken.')
+        except ValueError:
+            print(' I don\'t see', item_name, 'around here.')
+
+    def look(self, *args):
         self.print_room()
 
-    def down(self):
+    def down(self, *args):
         try:
             self.current_room = self.current_room.exits['d']
             self.print_room(intro=True)
-        except Exception:
-            print('I can\'t get there.')
+        except KeyError:
+            print(' I can\'t get there.')
 
-    def up(self):
+    def up(self, *args):
         try:
             self.current_room = self.current_room.exits['u']
             self.print_room(intro=True)
         except Exception:
-            print('I can\'t get there.')
+            print(' I can\'t get there.')
 
-    def north(self):
+    def north(self, *args):
         try:
             self.current_room = self.current_room.exits['n']
             self.print_room(intro=True)
         except Exception:
-            print('I can\'t get there.')
+            print(' I can\'t get there.')
 
-    def south(self):
+    def south(self, *args):
         try:
             self.current_room = self.current_room.exits['s']
             self.print_room(intro=True)
         except Exception:
-            print('I can\'t get there.')
+            print(' I can\'t get there.')
 
-    def east(self):
+    def east(self, *args):
         try:
             self.current_room = self.current_room.exits['e']
             self.print_room(intro=True)
         except Exception:
-            print('I can\'t get there.')
+            print(' I can\'t get there.')
 
-    def west(self):
+    def west(self, *args):
         try:
             self.current_room = self.current_room.exits['w']
             self.print_room(intro=True)
         except Exception:
-            print('I can\'t get there.')
+            print(' I can\'t get there.')
 
     def start(self):
         self.print_room(intro=True)
@@ -80,10 +102,10 @@ class Suroy(object):
         command, args = self.grammar.recognize('verbs', self.command)
         try:
             method = self.commands[command]
-        except:
+        except Exception:
             print('I don\'t understand that.')
             return
-        method()
+        method(args)
 
     def print_room(self, intro=False):
         room = self.current_room

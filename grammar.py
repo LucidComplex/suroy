@@ -13,7 +13,7 @@ class Grammar(object):
         for i in range(size):
             for t in getattr(self, type):
                 if ' '.join(words[:size - i]) in t:
-                    return t[0], ' '.join(words[:size - i])
+                    return t[0], ' '.join(words[size - i:])
         return False, False
 
 
