@@ -26,9 +26,18 @@ class Suroy(object):
             'examine': self.examine,
             'drop': self.drop,
             'ggwp': self.ggwp,
-            'exit': self.exit
+            'exit': self.exit,
+            'help': self.help
         }
         self.used = []
+
+    def help(self, *args):
+        print(' You can do the following:')
+        for command in self.commands.keys():
+            if command in ('use', 'examine', 'drop', 'get'):
+                print(' ', command, '<item>')
+            else:
+                print(' ', command)
 
     def exit(self, *args):
         sys.exit(0)
@@ -49,7 +58,6 @@ class Suroy(object):
                 print(' Dropped.')
                 return
         print('You don\'t have that item.')
-
 
     def use(self, *args):
         word = ' '.join(args)
