@@ -5,7 +5,7 @@ class Item(object):
             for line in item_data:
                 l = str.lower(line.rstrip())
                 if l == 'title':
-                    self.title = next(item_data).rstrip()
+                    self.title = str.lower(next(item_data).rstrip())
                 elif l == 'desc':
                     self.description = next(item_data).rstrip()
                 elif l == 'use':

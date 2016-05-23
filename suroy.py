@@ -24,23 +24,37 @@ class Suroy(object):
             'use': self.use,
             'examine': self.examine
         }
+        self.used = []
 
     def use(self, *args):
-        if len(args) == 0:
+        word = ' '.join(args)
+        if len(word) == 0:
             print(' Use what?')
             return
-        word = ' '.join(args)
         for item in self.player['inventory']:
             if str.lower(item.title) == str.lower(word):
                 try:
+                    if self.current_room.conflict:
+                        if str.lower(word) in self.current_room.solution.keys():
+                            solution_text, solve = self.current_room.solution[str.lower(word)]
+                            print('', solution_text)
+                            if solve:
+                                self.current_room.conflict = False
+                                self.current_room.description = self.current_room.solved
+                                for i, item in enumerate(self.player['inventory']):
+                                    if str.lower(item.title) == str.lower(word):
+                                        del self.player['inventory'][i]
+                            return
                     print('', item.use_cases[''])
+                    self.used.append(item)
                     for i, item in enumerate(self.player['inventory']):
                         if str.lower(item.title) == str.lower(word):
                             if item.drop_on_use:
                                 del self.player['inventory'][i]
-                                break
+                            return
                 except KeyError:
                     print('I can\'t use that.')
+        print(' I don\'t have a', word, 'to use.')
 
     def examine(self, *args):
         if len(args) == 0:
@@ -81,7 +95,8 @@ class Suroy(object):
     def move(self, direction):
         try:
             if self.current_room.conflict:
-                print(' You can\'t leave.')
+                print(' YOU LOSE.')
+                self.play = False
                 return
             self.current_room = self.current_room.exits[direction]
             self.print_room(intro=True)

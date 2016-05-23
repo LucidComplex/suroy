@@ -15,4 +15,18 @@ End
 
 Exit
 N street2
+e schoolgrounds
 End
+
+conflict
+guard
+end
+
+conflictsolved
+The guard smiles at you and says "Hi!".
+end
+
+solution
+id:You flash your ID at the guard.:yes
+packed lunch:You offer your packed lunch to the guard, but he doesn't take it.:
+end

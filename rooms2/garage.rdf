@@ -17,3 +17,15 @@ Exit
 S livingroom
 W street1
 End
+
+conflict
+dog
+end
+
+conflictsolved
+There is a dog off to the side, distracted by a chew toy.
+end
+
+solution
+chew toy:You throw the chew toy at the dog, and the dog drags the chew toy off to the side.:yes
+end
