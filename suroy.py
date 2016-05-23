@@ -76,7 +76,7 @@ class Suroy(object):
                     if str.lower(item.title) == 'packed lunch':
                         print('YOU PASSED THE EXAM!')
                         self.exit()
-                print(' You take the exam, but your calculator started to look like a chocolate bar. You could\'t concentrate.\nYOU FAILED.')
+                print(' You take the exam, but your calculator started to look like a chocolate bar. You couldn\'t concentrate.\nYOU FAILED.')
             else:
                 print('Your approached to take the exam, but your teacher merely stared at you... as if you were lacking something for the exam.\nYOU FAILED.')
             self.exit()
