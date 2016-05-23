@@ -7,12 +7,20 @@ How did I get to this place? Rats are gathering around the unfinished Chicken Jo
 End
 
 Desc
-A man jumps at you holding a knife. The man asks for everything that you have or else he'll kill you
+A holdaper jumps at you holding a knife. The holdaper asks for everything that you have or else he'll kill you
 End
+
+conflictsolved
+A dead body lies here with a knife in his hand. Pretty sure you don't want to be here any longer.
+end
 
 Items
 End
 
 Exit
 S street3
+End
+
+conflict
+holdaper
 End

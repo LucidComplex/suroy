@@ -78,47 +78,33 @@ class Suroy(object):
     def look(self, *args):
         self.print_room()
 
-    def down(self, *args):
+    def move(self, direction):
         try:
-            self.current_room = self.current_room.exits['d']
+            if self.current_room.conflict:
+                print(' You can\'t leave.')
+                return
+            self.current_room = self.current_room.exits[direction]
             self.print_room(intro=True)
         except KeyError:
             print(' I can\'t get there.')
 
+    def down(self, *args):
+        self.move('d')
+
     def up(self, *args):
-        try:
-            self.current_room = self.current_room.exits['u']
-            self.print_room(intro=True)
-        except Exception:
-            print(' I can\'t get there.')
+        self.move('u')
 
     def north(self, *args):
-        try:
-            self.current_room = self.current_room.exits['n']
-            self.print_room(intro=True)
-        except Exception:
-            print(' I can\'t get there.')
+        self.move('n')
 
     def south(self, *args):
-        try:
-            self.current_room = self.current_room.exits['s']
-            self.print_room(intro=True)
-        except Exception:
-            print(' I can\'t get there.')
+        self.move('s')
 
     def east(self, *args):
-        try:
-            self.current_room = self.current_room.exits['e']
-            self.print_room(intro=True)
-        except Exception:
-            print(' I can\'t get there.')
+        self.move('e')
 
     def west(self, *args):
-        try:
-            self.current_room = self.current_room.exits['w']
-            self.print_room(intro=True)
-        except Exception:
-            print(' I can\'t get there.')
+        self.move('w')
 
     def start(self):
         self.print_room(intro=True)

@@ -8,6 +8,7 @@ class Room(object):
     def __init__(self, path):
         self.items = []
         self.exits = {}
+        self.conflict = False
         with open(path) as room_data:
             for line in room_data:
                 l = str.lower(line.rstrip())
@@ -28,6 +29,10 @@ class Room(object):
                     while exit != 'end':
                         self.exits[exit[0]] = exit[2:]
                         exit = str.lower(next(room_data).rstrip())
+                elif l == 'conflict':
+                    self.conflict = next(room_data).rstrip()
+                elif l == 'conflictsolved':
+                    self.solved = next(room_data).rstrip()
 
 
 def load_rooms():
