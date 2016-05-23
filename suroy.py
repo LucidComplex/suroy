@@ -63,6 +63,7 @@ class Suroy(object):
                 print(' You take the exam, but your calculator started to look like a chocolate bar. You could\'t concentrate.\nYOU FAILED.')
             else:
                 print('Your approached to take the exam, but your teacher merely stared at you... as if you were lacking something for the exam.\nYOU FAILED.')
+            return
         for item in self.player['inventory']:
             if str.lower(item.title) == str.lower(word):
                 try:
