@@ -20,8 +20,34 @@ class Suroy(object):
             'down': self.down,
             'up': self.up,
             'get': self.get,
-            'inventory': self.inventory
+            'inventory': self.inventory,
+            'use': self.use,
+            'examine': self.examine
         }
+
+    def use(self, *args):
+        if len(args) == 0:
+            print(' Use what?')
+            return
+        word = ' '.join(args)
+        for item in self.player['inventory']:
+            if str.lower(item.title) == str.lower(word):
+                try:
+                    print('', item.use_cases[''])
+                    self.player['inventory'] = [item for item in self.player['inventory'] if str.lower(item.title) != str.lower(word) and item.drop_on_use]
+
+                except KeyError:
+                    print('I can\'t use that.')
+
+    def examine(self, *args):
+        if len(args) == 0:
+            print(' Examine what?')
+            return
+        word = ' '.join(args)
+        for item in self.player['inventory'] + self.current_room.items:
+            if str.lower(item.title) == str.lower(word):
+                print('', item.description)
+                return
 
     def inventory(self, *args):
         print(' You are carrying:')
@@ -29,16 +55,19 @@ class Suroy(object):
             print('  Nothing')
             return
         for item in self.player['inventory']:
-            print(' ', item)
+            print(' ', item.title)
 
     def get(self, item_name):
         if len(str.strip(item_name)) == 0:
             print('You want to get what item?')
             return
         try:
-            grabbed_index = self.current_room.items.index(item_name)
-            grabbed_item = self.current_room.items.pop(grabbed_index)
-            self.player['inventory'].append(grabbed_item)
+            grabbed = [item for item in self.current_room.items
+                if str.lower(item.title) == str.lower(item_name)][0]
+            self.current_room.items = [item for item in
+                self.current_room.items
+                if str.lower(item.title) != str.lower(item_name)]
+            self.player['inventory'].append(grabbed)
             print(' Taken.')
         except ValueError:
             print(' I don\'t see', item_name, 'around here.')
@@ -116,7 +145,7 @@ class Suroy(object):
         if room.items:
             print(' Items:')
             for item in room.items:
-                print('  ', item)
+                print('  ', item.title)
             print()
         self.print_exits()
 

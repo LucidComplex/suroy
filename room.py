@@ -1,4 +1,8 @@
 import os
+import item
+
+
+item_root = 'rooms2'
 
 class Room(object):
     def __init__(self, path):
@@ -14,10 +18,11 @@ class Room(object):
                 elif l == 'desc':
                     self.description = next(room_data).rstrip()
                 elif l == 'items':
-                    item = str.lower(next(room_data).rstrip())
-                    while item != 'end':
-                        self.items.append(item)
-                        item = str.lower(next(room_data).rstrip())
+                    i = str.lower(next(room_data).rstrip())
+                    while i != 'end':
+                        self.items.append(
+                            item.Item(os.path.join(item_root, i + '.idf')))
+                        i = str.lower(next(room_data).rstrip())
                 elif l == 'exit':
                     exit = str.lower(next(room_data).rstrip())
                     while exit != 'end':

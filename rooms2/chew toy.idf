@@ -1,0 +1,12 @@
+Title
+Chew Toy
+End
+
+Desc
+It's an attractive chew toy for a dog. Dogs will love it.
+End
+
+Use
+:You take a bite on the chew toy, and wonder why dogs love it.:
+dog:You give the chew toy to the dog.:drop
+End
