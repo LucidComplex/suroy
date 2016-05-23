@@ -34,8 +34,11 @@ class Suroy(object):
             if str.lower(item.title) == str.lower(word):
                 try:
                     print('', item.use_cases[''])
-                    self.player['inventory'] = [item for item in self.player['inventory'] if str.lower(item.title) != str.lower(word) and item.drop_on_use]
-
+                    for i, item in enumerate(self.player['inventory']):
+                        if str.lower(item.title) == str.lower(word):
+                            if item.drop_on_use:
+                                del self.player['inventory'][i]
+                                break
                 except KeyError:
                     print('I can\'t use that.')
 
